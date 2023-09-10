@@ -5,19 +5,17 @@
 CREATE TABLE IF NOT EXISTS public.details
 (
     id integer NOT NULL DEFAULT nextval('details_id_seq'::regclass),
-    fname character varying(50) COLLATE pg_catalog."default" NOT NULL,
-    lname character varying(50) COLLATE pg_catalog."default" NOT NULL,
-    gender character varying(10) COLLATE pg_catalog."default" NOT NULL,
-    phone bigint NOT NULL,
-    email character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    address character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    blood character varying COLLATE pg_catalog."default" NOT NULL,
-    emergency bigint NOT NULL,
+    fname character varying(50) COLLATE pg_catalog."default",
+    lname character varying(50) COLLATE pg_catalog."default",
+    gender character varying COLLATE pg_catalog."default",
+    phone bigint,
+    email character varying COLLATE pg_catalog."default",
+    address character varying COLLATE pg_catalog."default",
+    blood character varying COLLATE pg_catalog."default",
+    emergency bigint,
     CONSTRAINT details_pkey PRIMARY KEY (id),
     CONSTRAINT details_email_key UNIQUE (email),
     CONSTRAINT details_emergency_key UNIQUE (emergency),
-    CONSTRAINT details_fname_key UNIQUE (fname),
-    CONSTRAINT details_lname_key UNIQUE (lname),
     CONSTRAINT details_phone_key UNIQUE (phone)
 )
 
@@ -25,7 +23,6 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.details
     OWNER to postgres;
-
 --------------------------------------ASSET TABLE----------------------------------------------------
 
 
@@ -43,7 +40,7 @@ CREATE TABLE IF NOT EXISTS public.asset
     CONSTRAINT asset_id_fkey FOREIGN KEY (id)
         REFERENCES public.details (id) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
 )
 
 TABLESPACE pg_default;
