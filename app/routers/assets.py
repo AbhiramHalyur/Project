@@ -24,7 +24,7 @@ def get_assets():
     
     asset_details=cursor.fetchall()
     
-    return {'data': asset_details }
+    return {'Message':'Asset Data fetched Successfully','data': asset_details }
 
 
 
@@ -37,7 +37,7 @@ def create_assets(asset:Assets):
 
     conn.commit()
     
-    return {'data':new_asset}
+    return {'Message':'Assets Created Successfully','data':new_asset}
 
 
 @router.delete("/{assetid}",status_code=status.HTTP_204_NO_CONTENT)
@@ -68,4 +68,4 @@ def update_emp(assetid:int,asset:Assets):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
         detail=f"asset with id:{assetid} does not exist")
 
-    return{"data": updated_asset}
+    return{'Message':'Assets Updated Successfully',"data": updated_asset}
