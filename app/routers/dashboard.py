@@ -27,4 +27,4 @@ def get_dashboard(id: int):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
         detail="Employee not found")
     
-    return {'data':dashboard}
+    return {'Message':'Employee and Asset data','data':dashboard}
