@@ -29,7 +29,7 @@ class Details(BaseModel):
 def get_details():
     cursor.execute(""" SELECT * FROM details""")
     details=cursor.fetchall()
-    return {'data': details }
+    return {'Message':'Employees Data Successfully Fetched','data': details }
 
 @router.post("/",status_code=status.HTTP_201_CREATED)
 def create_details(det:Details):
@@ -40,7 +40,7 @@ def create_details(det:Details):
 
     conn.commit()
     
-    return {'data':new_emp}
+    return {'Message':'Employee Successfully Created','data':new_emp}
 
 @router.delete("/{id}",status_code=status.HTTP_204_NO_CONTENT)
 def delete_details(id: int):
@@ -54,12 +54,13 @@ def delete_details(id: int):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
         detail=f"Employee with id:{id} does not exist")
     
-    return Response(status_code=status.HTTP_204_NO_CONTENT)
+    return {'Message':'Employee Details Deleted Successfully'}
 
 @router.put("/{id}")
 def update_emp(id:int,details:Details):
 
-    cursor.execute("""UPDATE details SET fname=%s,lname=%s,gender=%s,phone=%s,email=%s,address=%s,blood=%s,emergency=%s WHERE id=%s RETURNING * """,(details.fname,details.lname,details.gender,details.phone,details.email,details.address,details.blood,details.emergency,str(id)))
+    cursor.execute("""UPDATE details SET phone=%s,email=%s,emergency=%s WHERE id=%s RETURNING * """,
+    (details.phone,details.email,details.emergency,str(id)))
 
     updated_emp=cursor.fetchone()
 
@@ -71,4 +72,4 @@ def update_emp(id:int,details:Details):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
         detail=f"post with id:{id} does not exist")
 
-    return{"data": updated_emp}
+    return{'Message':'Details Updated Successfully',"data": updated_emp}
