@@ -1,0 +1,52 @@
+-- Table: public.details
+
+-- DROP TABLE IF EXISTS public.details;
+
+CREATE TABLE IF NOT EXISTS public.details
+(
+    id integer NOT NULL DEFAULT nextval('details_id_seq'::regclass),
+    fname character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    lname character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    gender character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    phone bigint NOT NULL,
+    email character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    address character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    blood character varying COLLATE pg_catalog."default" NOT NULL,
+    emergency bigint NOT NULL,
+    CONSTRAINT details_pkey PRIMARY KEY (id),
+    CONSTRAINT details_email_key UNIQUE (email),
+    CONSTRAINT details_emergency_key UNIQUE (emergency),
+    CONSTRAINT details_fname_key UNIQUE (fname),
+    CONSTRAINT details_lname_key UNIQUE (lname),
+    CONSTRAINT details_phone_key UNIQUE (phone)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.details
+    OWNER to postgres;
+
+--------------------------------------ASSET TABLE----------------------------------------------------
+
+
+-- Table: public.asset
+
+-- DROP TABLE IF EXISTS public.asset;
+
+CREATE TABLE IF NOT EXISTS public.asset
+(
+    assetid integer NOT NULL DEFAULT nextval('asset_assetid_seq'::regclass),
+    id integer,
+    assetname character varying COLLATE pg_catalog."default",
+    assettype character varying COLLATE pg_catalog."default",
+    CONSTRAINT asset_pkey PRIMARY KEY (assetid),
+    CONSTRAINT asset_id_fkey FOREIGN KEY (id)
+        REFERENCES public.details (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.asset
+    OWNER to postgres;
